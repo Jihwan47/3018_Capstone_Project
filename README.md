@@ -44,3 +44,10 @@ Project Milestone
         management, and dotenv will be used for environment variable management. 
         For project management, Issues and Milestones will be configured to track tasks and progress the 
         project. 
+
+    4. Link to Public Documentation
+        =================
+        https://jihwan47.github.io/3018_Capstone_Project/
+        This is the link to the public documentation for the Capstone Project API.
+        This URL provides access to the API documentation, including endpoint descriptions, request and response examples in general.
+        =================
