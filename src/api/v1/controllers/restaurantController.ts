@@ -1,13 +1,3 @@
-// Restaurants (2~3 restaurants) 
-
-// GET - /api/v1/restaurants – List all restaurants (2~3) 
-
-// GET - /api/v1/restaurants/:id – Get specific restaurant with unique identifier 
-
-// POST - /api/v1/restaurants – Create restaurant (Admin can create restaurant) 
-
-// PUT - /api/v1/restaurants/:id – Update restaurant (Owner can update restaurant) DELETE - /api/v1/restaurants/:id – Delete restaurant (Admin can delete restaurant) 
-
 import { NextFunction, Request, Response } from "express";
 import { successResponse } from "../models/responseModel";
 import * as restaurantService from "../services/restaurantService"
