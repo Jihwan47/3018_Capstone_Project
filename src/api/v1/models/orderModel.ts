@@ -9,6 +9,10 @@
  *         - customerName
  *         - items
  *       properties:
+ *         restaurantId:
+ *           type: string
+ *           description: Unique identifier of the restaurant
+ *           example: 64b8f0c2e1d2c3a4b5c6d7e8
  *         restaurantName:
  *           type: string
  *           minLength: 1
@@ -41,6 +45,16 @@
  *           type: enum
  *           enum: [Pending, In Progress, Completed, Cancelled]
  *           default: Pending
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: When the user order was created
+ *           example: "2024-01-15T10:30:00Z"
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: When the user order was last updated
+ *           example: "2024-01-20T14:45:00Z"
  */
 
 /**
@@ -53,19 +67,6 @@ export enum OrderStatus {
     InProgress = "In Progress",
     Completed = "Completed",
     Cancelled = "Cancelled"
-}
-
-/**
- * Represents request format of order interface (Only for pickup)
- * @param restaurantId - ID of the restaurant receiving the order
- * @param restaurantName - name of the restaurant receiving the order
- * @param customerName - name of the customer placing the order
- * @param items - list of items in the order with their price
- */
-export interface createOrder {
-    restaurantId: string;
-    customerName: string;
-    items: { itemId: string }[];
 }
 
 /**
@@ -87,4 +88,17 @@ export interface Order {
     status: OrderStatus;
     createdAt?: Date;
     updatedAt?: Date;
+}
+
+/**
+ * Represents request format of order interface (Only for pickup)
+ * @param restaurantId - ID of the restaurant receiving the order
+ * @param restaurantName - name of the restaurant receiving the order
+ * @param customerName - name of the customer placing the order
+ * @param items - list of items in the order with their price
+ */
+export interface createOrder {
+    restaurantId: string;
+    customerName: string;
+    items: { itemId: string }[];
 }
