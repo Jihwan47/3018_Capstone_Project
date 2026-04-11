@@ -6,6 +6,7 @@
  * @param itemPrice - price of the menu item
  */
 export interface createMenuItem {
+    restaurantId: string;
     itemName: string;
     itemDescription: string;
     itemPrice: number;
@@ -15,6 +16,7 @@ export interface createMenuItem {
 /**
  * Represents response format of review interface
  * @param itemId - unique identifier of the menu item
+ * @param restaurantId - unique identifier of the restaurant
  * @param itemName - name of the menu item
  * @param itemDescription - description of the menu item
  * @param itemPrice - price of the menu item
@@ -23,6 +25,7 @@ export interface createMenuItem {
  */
 export interface menuItem {
     itemId: string;
+    restaurantId: string;
     itemName: string;
     itemDescription: string;
     itemPrice: number;
