@@ -1,13 +1,3 @@
-// Menu (mostly for the owner) 
-
-// GET - /api/v1/restaurants/:id/menu – List all menus of the specific restaurant 
-
-// POST - /api/v1/restaurants/:id/menu – Add menu item (Owner can add items to the menu) 
-
-// PUT - /api/v1/restaurants/:id/menu/:itemId – Update menu item (Owner can update items) 
-
-// DELETE - /api/v1/restaurants/:id/menu/:itemId – Delete menu item (Owner can delete items) 
-
 import { createMenuItem, menuItem } from "../models/menuModel";
 import * as restaurantRepository from "../repositories/restaurantRepository"
 
@@ -21,6 +11,7 @@ export const createMenuItems = async (menu: createMenuItem): Promise<menuItem> =
     // create new menu item
     // using partial<T> so that other than required fields, all properties become optional
     const newMenuItem: Partial<menuItem> = {
+        restaurantId: menu.restaurantId,
         itemName: menu.itemName,
         itemDescription: menu.itemDescription,
         itemPrice: menu.itemPrice,
@@ -28,17 +19,18 @@ export const createMenuItems = async (menu: createMenuItem): Promise<menuItem> =
         updatedAt: new Date()
     }
 
-    // get id from the data base
-    const newRestaurantId = await restaurantRepository.createDocument("restaurants", newMenuItem);
+    // get id from the data base //must be restaurant's id because menu item is a subcollection of restaurant
+    const newRestaurantId = await restaurantRepository.createDocument("menuItems", newMenuItem);
 
     // fetches the newly created menu item from the database
-    const dbDocument = await restaurantRepository.getDocumentById("restaurants", newRestaurantId);
+    const dbDocument = await restaurantRepository.getDocumentById("menuItems", newRestaurantId);
     // save the data as menuItem format
     const savedData = dbDocument?.data() as menuItem;
 
     // return api response format
     return {
         itemId: savedData.itemId,
+        restaurantId: savedData.restaurantId,
         itemName: savedData.itemName,
         itemDescription: savedData.itemDescription,
         itemPrice: savedData.itemPrice,
@@ -52,20 +44,26 @@ export const createMenuItems = async (menu: createMenuItem): Promise<menuItem> =
  * returns all menu items in the array
  * with total number of menu items in the array
  */
-export const getAllMenuItems = async (): Promise<menuItem[]> => {
+export const getAllMenuItems = async (restaurantId: string): Promise<menuItem[]> => {
 
     // wait until document fetches the data from firebase
-    const document = await restaurantRepository.getDocuments("menu items");
+    const document = await restaurantRepository.getDocuments("menuItems");
 
     // use map to allocate document data and transform into Event data form
     // and return an array of Events as it Promise<Event[]>
-    return document.docs.map(doc => {
-        const data = doc.data() as Omit <menuItem, "itemId">;
-        return{
-            itemId:doc.id,
-            ...data
-        } as menuItem;
-    });
+    return document.docs
+        .filter(doc => {
+            const data = doc.data() as menuItem;
+            // filter out the menu items that are not valid
+            return data.restaurantId === restaurantId;
+        })
+        .map(doc => {
+            const data = doc.data() as Omit <menuItem, "itemId">;
+            return{
+                itemId:doc.id,
+                ...data
+            } as menuItem;
+        });
 };
 
 /**
@@ -77,7 +75,7 @@ export const getAllMenuItems = async (): Promise<menuItem[]> => {
 export const getMenuItemById = async (id: string): Promise<menuItem | undefined> => {
     
     // wait until documnet fetches the data from firebase
-    const document = await restaurantRepository.getDocumentById("restaurants", id);
+    const document = await restaurantRepository.getDocumentById("menuItems", id);
 
     // if document is invalid
     if(!document){
@@ -112,7 +110,7 @@ export const updateMenuItem = async (id: string, updateData: Omit<menuItem, "ite
     }
 
     // update the data of the id, and updatedAt will be now
-    await restaurantRepository.updateDocument("menu items", id, {...updateData, updatedAt: new Date()});
+    await restaurantRepository.updateDocument("menuItems", id, {...updateData, updatedAt: new Date()});
 
     // object spread operator to merge updated code into existing one
     return {
@@ -140,6 +138,6 @@ export const deleteMenuItem = async (id: string): Promise<void> => {
     }
 
     // delete the particular menu item by its id in the database
-    await restaurantRepository.deleteDocument("menu items", id);
+    await restaurantRepository.deleteDocument("menuItems", id);
 
 }
