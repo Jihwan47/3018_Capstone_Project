@@ -16,15 +16,12 @@ export enum OrderStatus {
  * @param restaurantId - ID of the restaurant receiving the order
  * @param restaurantName - name of the restaurant receiving the order
  * @param customerName - name of the customer placing the order
- * @param items - list of items in the order with their quantity
- * @param totalPrice - total price of the order
+ * @param items - list of items in the order with their price
  */
 export interface createOrder {
     restaurantId: string;
-    restaurantName: string;
     customerName: string;
-    items: { itemId: string; quantity: number }[];
-    totalPrice: number;
+    items: { itemId: string }[];
 }
 
 /**
@@ -33,7 +30,7 @@ export interface createOrder {
  * @param restaurantName - name of the restaurant receiving the order
  * @param customerId - ID of the customer placing the order
  * @param customerName - name of the customer placing the order
- * @param items - list of items in the order with their quantity
+ * @param items - list of items in the order with their price
  * @param totalPrice - total price of the order
  * @param status - status of the order
  */
@@ -41,7 +38,9 @@ export interface Order {
     restaurantId: string;
     restaurantName: string;
     customerName: string;
-    items: { itemId: string; itemName: string; quantity: number }[];
+    items: { itemId: string; itemName: string; itemPrice: number }[];
     totalPrice: number;
     status: OrderStatus;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
