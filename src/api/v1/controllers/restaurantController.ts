@@ -26,6 +26,12 @@ export const getAllRestaurants = async (req: Request, res: Response, next: NextF
 export const getRestaurantById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = String(req.params.id);
+
+        if (!id) {
+            res.status(400).json({ message: "Restaurant ID is required" });
+            return;
+        }
+
         const restaurant = await restaurantService.getRestaurantById(id);
 
         res.status(200).json(successResponse(restaurant, "Restaurant retrieved successfully"));
@@ -55,6 +61,11 @@ export const updateRestaurant = async (req: Request, res: Response, next: NextFu
     try {
         const id = String(req.params.id);
 
+        if (!id) {
+            res.status(400).json({ message: "Restaurant ID is required" });
+            return;
+        }
+
         const restaurant = await restaurantService.updateRestaurant(id, req.body);
         res.status(200).json(successResponse(restaurant, "Restaurant updated succesfully"));
     } catch (error: unknown) {
@@ -69,6 +80,11 @@ export const updateRestaurant = async (req: Request, res: Response, next: NextFu
 export const deleteRestaurant = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = String(req.params.id);
+
+        if (!id) {
+            res.status(400).json({ message: "Restaurant ID is required" });
+            return;
+        }
 
         const restaurant = await restaurantService.deleteRestaurant(id);
         res.status(200).json(successResponse(restaurant, "Restaurant deleted succesfully"));
