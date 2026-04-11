@@ -16,7 +16,7 @@ import { rateLimit } from 'express-rate-limit'
  */
 const orderLimiterPerHour = rateLimit({
     windowMs: 60 * 60 * 1000,
-    max: 10, 
+    max: 5, 
     message: 'Too many orders created from this IP, please try again after an hour or contact the restaurant directly if you need assistance.',
     handler: (req, res, next, options) => {
         res.status(429).json({
@@ -68,7 +68,7 @@ const orderLimiterPerDay = rateLimit({
  */
 const apiLimiter = rateLimit({
     windowMs: 10 * 60 * 1000,
-    max: 100,
+    max: 50,
     message: 'Too many requests from this IP, please try again after 10 minutes.',
     handler: (req, res, next, options) => {
         res.status(429).json({
