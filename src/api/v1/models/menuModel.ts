@@ -20,7 +20,7 @@
  *         itemName:
  *           type: string
  *           minLength: 1
- *           example: Casual Dining
+ *           example: Margherita Pizza
  *         itemDescription:
  *           type: string
  *           example: A delicious dish

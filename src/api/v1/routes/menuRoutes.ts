@@ -6,10 +6,17 @@ const router = express.Router();
 // Create post - validates body only
 /**
  * @openapi
- * /restaurants/:id/menu:
+ * /restaurants/{id}/menu:
  *   post:
  *     summary: Create a new menu item
  *     tags: [Menus]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The id of the restaurant
  *     requestBody:
  *       required: true
  *       content:
@@ -24,7 +31,7 @@ const router = express.Router();
  *               itemName:
  *                 type: string
  *                 minLength: 1
- *                 example: Casual Dining
+ *                 example: Margherita Pizza
  *               itemDescription:
  *                 type: string
  *                 example: A delicious dish
@@ -34,24 +41,20 @@ const router = express.Router();
  *                 example: 10.99
  *     responses:
  *       '201':
- *         description: event created successfully
+ *         description: menu item created successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/createMenuItems'
+ *               $ref: '#/components/schemas/Menus'
  *       '400':
  *         description: Invalid input data
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/createMenuItems'
  */
 router.post("/restaurants/:id/menu", menuController.createMenuItem);
 
 // Get all post - validates params and optional query
 /**
  * @openapi
- * /restaurants/:id/menu:
+ * /restaurants/{id}/menu:
  *   get:
  *     summary: Retrieve all menu items for a specific restaurant
  *     tags: [Menus]
@@ -66,20 +69,16 @@ router.post("/restaurants/:id/menu", menuController.createMenuItem);
  *                 restaurants:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/getAllMenuItems'
+ *                     $ref: '#/components/schemas/Menus'
  *       '500':
  *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/getAllMenuItems'
  */
 router.get("/restaurants/:id/menu", menuController.getAllMenuItems);
 
 // Update post - validates both params and body
 /**
  * @openapi
- * /restaurants/:id/menu/:itemId:
+ * /restaurants/{id}/menu/{itemId}:
  *   put:
  *     summary: Update an existing menu item
  *     tags: [Menus]
@@ -121,26 +120,18 @@ router.get("/restaurants/:id/menu", menuController.getAllMenuItems);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/updateMenuItem'
+ *               $ref: '#/components/schemas/Menus'
  *       '400':
  *         description: Invalid input data
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/updateMenuItem'
  *       '404':
  *         description: Menu item not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/updateMenuItem'
  */
 router.put("/restaurants/:id/menu/:itemId", menuController.updateMenuItem);
 
 // Delete post - validates params only
 /**
  * @openapi
- * /restaurants/:id/menu/:itemId:
+ * /restaurants/{id}/menu/{itemId}:
  *   delete:
  *     summary: Delete an existing menu item
  *     tags: [Menus]
@@ -163,13 +154,9 @@ router.put("/restaurants/:id/menu/:itemId", menuController.updateMenuItem);
  *                 menus:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/deleteMenuItem'
+ *                     $ref: '#/components/schemas/Menus'
  *       '404':
  *         description: Menu item not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/deleteMenuItem'
  */
 router.delete("/restaurants/:id/menu/:itemId", menuController.deleteMenuItem);
 
