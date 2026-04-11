@@ -18,10 +18,13 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             required:
- *               - restaurantName
+ *               - restaurantId
  *               - customerName
  *               - items
  *             properties:
+ *               restaurantId:
+ *                 type: string
+ *                 example: 64b8f0c2e1d2c3a4b5c6d7e8
  *               restaurantName:
  *                 type: string
  *                 minLength: 1
