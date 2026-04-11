@@ -40,6 +40,16 @@
  *           enum: [Fast Food, Casual Dining, Fine Dining]
  *           default: Casual Dining
  *           example: Casual Dining
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: When the restaurant was created
+ *           example: "2024-01-15T10:30:00Z"
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: When the restaurant was last updated
+ *           example: "2024-01-20T14:45:00Z"
  */
 
 /**
@@ -52,23 +62,6 @@ export enum restaurantCategory {
     casualDining = "Casual Dining",
     fineDining = "Fine Dining"
 }
-
-
-/**
- * Represents post response format of restaurant interface
- * @param restaurantName - name of an restaurant
- * @param restaurantAddress - address of an restaurant
- * @param restaurantPhone - phone number of an restaurant
- * @param restaurantEmail - email of an restaurant
- */
-export interface createRestaurant {
-    restaurantName: string;
-    restaurantAddress: string;
-    restaurantPhone: string;
-    restaurantEmail: string;
-    restaurantCategory: restaurantCategory;
-}
-
 
 /**
  * Represents response format of restaurant interface
@@ -94,3 +87,19 @@ export interface Restaurant {
     createdAt: Date;
     updatedAt: Date;
 }
+
+/**
+ * Represents post response format of restaurant interface
+ * @param restaurantName - name of an restaurant
+ * @param restaurantAddress - address of an restaurant
+ * @param restaurantPhone - phone number of an restaurant
+ * @param restaurantEmail - email of an restaurant
+ */
+export interface createRestaurant {
+    restaurantName: string;
+    restaurantAddress: string;
+    restaurantPhone: string;
+    restaurantEmail: string;
+    restaurantCategory: restaurantCategory;
+}
+
