@@ -11,6 +11,10 @@ export const getAllMenuItems = async (req: Request, res: Response, next: NextFun
     try {
         const restaurantId = String(req.params.id);
 
+        if (!restaurantId) {
+            res.status(400).json({ message: "Restaurant ID is required" });
+            return;
+        }
         // get all menu items
         const menuItems = await menuService.getAllMenuItems(restaurantId);
         // count the number of menu items in the database
@@ -28,6 +32,11 @@ export const getAllMenuItems = async (req: Request, res: Response, next: NextFun
 export const getMenuItemById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = String(req.params.id);
+
+        if (!id) {
+            res.status(400).json({ message: "Menu Item ID is required" });
+            return;
+        }
         const menuItem = await menuService.getMenuItemById(id);
 
         res.status(200).json(successResponse(menuItem, "Menu item retrieved successfully"));
@@ -57,6 +66,10 @@ export const updateMenuItem = async (req: Request, res: Response, next: NextFunc
     try {
         const id = String(req.params.id);
 
+        if (!id) {
+            res.status(400).json({ message: "Menu Item ID is required" });
+            return;
+        }
         const menuItem = await menuService.updateMenuItem(id, req.body);
         res.status(200).json(successResponse(menuItem, "Menu item updated successfully"));
     } catch (error: unknown) {
@@ -72,6 +85,10 @@ export const deleteMenuItem = async (req: Request, res: Response, next: NextFunc
     try {
         const id = String(req.params.itemId);
 
+        if (!id) {
+            res.status(400).json({ message: "Menu Item ID is required" });
+            return;
+        }
         const menuItem = await menuService.deleteMenuItem(id);
         res.status(200).json(successResponse(menuItem, "Menu item deleted successfully"));
     } catch (error: unknown) {
