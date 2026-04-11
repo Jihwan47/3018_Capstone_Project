@@ -1,9 +1,3 @@
-// Order 
-
-// POST - /api/v1/orders – Customer place an order (Customer can order their food) 
-// GET - /api/v1/orders/:id – Customer can review their order / Owner can review customer’s order (customer / Owner) 
-// PUT - /api/v1/orders/:id/status – Update order status (Delivery or Pickup)(Owner can update the status of orders) 
-
 import { OrderStatus, createOrder, Order } from "../models/orderModel";
 import * as restaurantRepository from "../repositories/restaurantRepository"
 
@@ -17,34 +11,59 @@ import * as restaurantRepository from "../repositories/restaurantRepository"
  */
 export const createOrders = async (order: createOrder): Promise<Order> => {
 
+    // extract restaurant information with restaurant id
+    const restaurant = await restaurantRepository.getDocumentById("restaurants",order.restaurantId);
+
+    // validate restaurant id
+    if(!restaurant){
+        throw new Error("Restaurant Id is invalid");
+    }
+
+    // restaurantName is required to create an order which is not provided by the user,
+    // so extract the name with the id from the firebase
+    const restaurantData = restaurant.data() as { restaurantName: string };
+
+    // menuitem array
+    const menuItems: { itemId: string; itemName: string; itemPrice: number }[] = [];
+    let totalPrice = 0;
+
+    // iterate through the items and extract information
+    for( const items of order.items){
+        const menuItem = await restaurantRepository.getDocumentById("menuItems", items.itemId);
+
+        if(!menuItem){
+            throw new Error("Menu item Id is invalid");
+        }
+
+        const menuInfo = menuItem.data() as { itemName: string; itemPrice: number };
+        menuItems.push({
+            itemId: items.itemId,
+            itemName: menuInfo.itemName,
+            itemPrice: menuInfo.itemPrice
+        })
+        totalPrice += menuInfo.itemPrice;
+    }
+
     // create new order
     // using partial<T> so that other than required fields, all properties become optional
     const newOrder: Partial<Order> = {
-        restaurantName: order.restaurantName,
+        restaurantId: order.restaurantId,
+        restaurantName: restaurantData.restaurantName,
         customerName: order.customerName,
-        items: order.items.map(item => ({ itemId: item.itemId, itemName: "Sample Item", quantity: item.quantity })),
-        totalPrice: order.totalPrice,
-        status: OrderStatus.Pending
+        totalPrice: totalPrice,
+        status: OrderStatus.Pending,
+        createdAt: new Date(),
+        updatedAt: new Date()
     }
-
-    // get id from the data base
+    // push new order to the firebase
     const newOrderId = await restaurantRepository.createDocument("orders", newOrder);
 
+    // fetch data in the firebase 
+    const document = await restaurantRepository.getDocumentById("orders", newOrderId);
+    // save the fetch data in Order model format
+    const savedData = document?.data() as Order;
 
-    // fetches the newly created Order from the database
-    const dbDocument = await restaurantRepository.getDocumentById("orders", newOrderId);
-    // save the data as Order format
-    const savedData = dbDocument?.data() as Order;
-
-    // return api response format
-    return {
-        restaurantId: savedData.restaurantId,
-        restaurantName: savedData.restaurantName,
-        customerName: savedData.customerName,
-        items: savedData.items,
-        totalPrice: savedData.totalPrice,
-        status: savedData.status
-    }
+    return savedData;
 };
 
 /**
@@ -65,12 +84,9 @@ export const getOrderById = async (id: string): Promise<Order | undefined> => {
     
     // since document.data() does not have id field, remove id from the data
     // and will have it back when it returns Promise<Order> type 
-    const data = document.data() as Omit<Order, "restaurantId">;
+    const data = document.data() as Order; 
 
-    return {
-        restaurantId: document.id,
-        ...data
-    }
+    return data;
 };
 
 /**
