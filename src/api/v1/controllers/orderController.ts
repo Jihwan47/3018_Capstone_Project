@@ -9,6 +9,12 @@ import * as orderService from "../services/orderService"
 export const getOrderById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = String(req.params.id);
+
+        if (!id) {
+            res.status(400).json({ message: "Order ID is required" });
+            return;
+        }
+
         const order = await orderService.getOrderById(id);
 
         res.status(200).json(successResponse(order, "Order retrieved successfully"));
@@ -37,6 +43,11 @@ export const createOrder = async (req: Request, res: Response, next: NextFunctio
 export const updateOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = String(req.params.id);
+
+        if (!id) {
+            res.status(400).json({ message: "Order ID is required" });
+            return;
+        }
 
         const order = await orderService.updateOrder(id, req.body);
         res.status(200).json(successResponse(order, "Order updated successfully"));
