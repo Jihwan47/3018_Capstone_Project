@@ -1,3 +1,26 @@
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Menus:
+ *       type: object
+ *       required:
+ *         - itemName
+ *         - itemDescription
+ *         - itemPrice
+ *       properties:
+ *         itemName:
+ *           type: string
+ *           minLength: 1
+ *           example: Casual Dining
+ *         itemDescription:
+ *           type: string
+ *           example: A delicious dish
+ *         itemPrice:
+ *           type: number
+ *           minimum: 0.01
+ *           example: 10.99
+ */
 
 /**
  * Represents response format of review interface
