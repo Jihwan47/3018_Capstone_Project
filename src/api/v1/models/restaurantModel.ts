@@ -1,4 +1,48 @@
 /**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Restaurants:
+ *       type: object
+ *       required:
+ *         - restaurantName
+ *         - restaurantAddress
+ *         - restaurantPhone
+ *         - restaurantEmail
+ *         - restaurantCategory
+ *       properties:
+ *         restaurantName:
+ *           type: string
+ *           minLength: 1
+ *           example: Casual Dining
+ *         restaurantAddress:
+ *           type: string
+ *           example: 123 Main St
+ *         restaurantPhone:
+ *           type: string
+ *           example: (123) 456-7890
+ *         restaurantEmail:
+ *           type: string
+ *           format: email
+ *           example: info@rrc.com
+ *         rating:
+ *           type: number
+ *           minimum: 0
+ *           default: 0
+ *           example: 4.5
+ *         reviewCount:
+ *           type: integer
+ *           minimum: 0
+ *           default: 0
+ *           example: 50
+ *         restaurantCategory:
+ *           type: string
+ *           enum: [Fast Food, Casual Dining, Fine Dining]
+ *           default: Casual Dining
+ *           example: Casual Dining
+ */
+
+/**
  * Represents enumeration of restaurant status
  * Pending, In Open, Closed
  * Default value of Open
