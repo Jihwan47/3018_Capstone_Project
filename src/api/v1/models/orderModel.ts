@@ -1,3 +1,47 @@
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     orders:
+ *       type: object
+ *       required:
+ *         - restaurantName
+ *         - customerName
+ *         - items
+ *       properties:
+ *         restaurantName:
+ *           type: string
+ *           minLength: 1
+ *           example: Casual Dining
+ *         customerName:
+ *           type: string
+ *           example: 123 Main St
+ *         items:
+ *           type: array
+ *           items:
+ *             type: object
+ *             required:
+ *               - itemId
+ *             properties:
+ *               itemId:
+ *                 type: string
+ *                 example: 64b8f0c2e1d2c3a4b5c6d7e8
+ *               itemName:
+ *                 type: string
+ *                 example: Cheeseburger
+ *               price:
+ *                 type: number
+ *                 minimum: 0
+ *                 example: 10.99
+ *         totalPrice:
+ *           type: number
+ *           minimum: 0
+ *           example: 21.98
+ *         status:
+ *           type: enum
+ *           enum: [Pending, In Progress, Completed, Cancelled]
+ *           default: Pending
+ */
 
 /**
  * Represents enumeration of order status
