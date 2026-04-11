@@ -9,8 +9,10 @@ import * as menuService from "../services/menuService"
  */
 export const getAllMenuItems = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const restaurantId = String(req.params.id);
+
         // get all menu items
-        const menuItems = await menuService.getAllMenuItems();
+        const menuItems = await menuService.getAllMenuItems(restaurantId);
         // count the number of menu items in the database
         const totalCount = menuItems.length;
         res.status(200).json(successResponse(menuItems, "Succesfully retreived", totalCount));
@@ -68,7 +70,7 @@ export const updateMenuItem = async (req: Request, res: Response, next: NextFunc
  */
 export const deleteMenuItem = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const id = String(req.params.id);
+        const id = String(req.params.itemId);
 
         const menuItem = await menuService.deleteMenuItem(id);
         res.status(200).json(successResponse(menuItem, "Menu item deleted successfully"));
