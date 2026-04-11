@@ -1,12 +1,6 @@
 import { Restaurant, createRestaurant, restaurantCategory } from "../models/restaurantModel";
 import * as restaurantRepository from "../repositories/restaurantRepository"
 
-/** 
- * Asynchronous, this assingment is dealing with real database.
- * it menas, the function takes some time and will return after completion
- * which is Promise
-*/ 
-
 /**
  * Create restaurant
  * @param restaurant - request interface defined in restaurantModel.
