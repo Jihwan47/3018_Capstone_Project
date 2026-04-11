@@ -14,6 +14,7 @@ export const HTTP_STATUS = {
     NOT_FOUND: 404,
     CONFLICT: 409, // NEW: For resource conflicts
     UNPROCESSABLE_ENTITY: 422, // NEW: For validation errors
+    TOO_MANY_REQUESTS: 429, // NEW: For rate limiting
 
     // Server error responses
     INTERNAL_SERVER_ERROR: 500,
