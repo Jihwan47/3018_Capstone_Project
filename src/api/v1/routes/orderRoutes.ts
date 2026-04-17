@@ -54,7 +54,7 @@ const router = express.Router();
  *                 minimum: 0
  *                 example: 21.98
  *               status:
- *                 type: enum
+ *                 type: string
  *                 enum: [Pending, In Progress, Completed, Cancelled]
  *                 default: Pending
  *     responses:
@@ -72,7 +72,7 @@ router.post("/orders", orderLimiterPerHour, orderLimiterPerDay, authenticate, is
 // Get single post - validates params and optional query
 /**
  * @openapi
- * /orders/:id:
+ * /orders/{id}:
  *   get:
  *     summary: Retrieve a single order by ID
  *     tags: [Orders]
@@ -102,7 +102,7 @@ router.get("/orders/:id", authenticate, isAuthorized({ hasRole: ["owner", "user"
 // Update put - validates both params and body
 /**
  * @openapi
- * /orders/:id:
+ * /orders/{id}:
  *   put:
  *     summary: Update an existing order
  *     tags: [Orders]
@@ -135,7 +135,7 @@ router.get("/orders/:id", authenticate, isAuthorized({ hasRole: ["owner", "user"
  *                 type: string
  *                 example: Daniel
  *               status:
- *                 type: enum
+ *                 type: string
  *                 enum: [Pending, In Progress, Completed, Cancelled]
  *                 default: Pending
  *     responses:

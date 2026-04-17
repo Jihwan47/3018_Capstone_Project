@@ -333,7 +333,7 @@
                     "example": 21.98
                   },
                   "status": {
-                    "type": "enum",
+                    "type": "string",
                     "enum": [
                       "Pending",
                       "In Progress",
@@ -353,25 +353,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/createOrder"
+                  "$ref": "#/components/schemas/orders"
                 }
               }
             }
           },
           "400": {
-            "description": "Invalid input data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/createOrder"
-                }
-              }
-            }
+            "description": "Invalid input data"
           }
         }
       }
     },
-    "/orders/:id": {
+    "/orders/{id}": {
       "get": {
         "summary": "Retrieve a single order by ID",
         "tags": [
@@ -398,7 +391,7 @@
                     "restaurants": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/getOrderById"
+                        "$ref": "#/components/schemas/orders"
                       }
                     }
                   }
@@ -407,14 +400,7 @@
             }
           },
           "404": {
-            "description": "order not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/getOrderById"
-                }
-              }
-            }
+            "description": "order not found"
           }
         }
       },
@@ -462,7 +448,7 @@
                     "example": "Daniel"
                   },
                   "status": {
-                    "type": "enum",
+                    "type": "string",
                     "enum": [
                       "Pending",
                       "In Progress",
@@ -482,30 +468,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/updateOrder"
+                  "$ref": "#/components/schemas/orders"
                 }
               }
             }
           },
           "400": {
-            "description": "Invalid input data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/updateOrder"
-                }
-              }
-            }
+            "description": "Invalid input data"
           },
           "404": {
-            "description": "order not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/updateOrder"
-                }
-              }
-            }
+            "description": "order not found"
           }
         }
       }
@@ -581,20 +553,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/createRestaurant"
+                  "$ref": "#/components/schemas/Restaurants"
                 }
               }
             }
           },
           "400": {
-            "description": "Invalid input data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/createRestaurant"
-                }
-              }
-            }
+            "description": "Invalid input data"
           }
         }
       },
@@ -614,7 +579,7 @@
                     "restaurants": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/getAllRestaurants"
+                        "$ref": "#/components/schemas/Restaurants"
                       }
                     }
                   }
@@ -623,14 +588,7 @@
             }
           },
           "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/getAllRestaurants"
-                }
-              }
-            }
+            "description": "Internal server error"
           }
         }
       }
@@ -662,7 +620,7 @@
                     "restaurants": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/getRestaurantById"
+                        "$ref": "#/components/schemas/Restaurants"
                       }
                     }
                   }
@@ -671,14 +629,7 @@
             }
           },
           "404": {
-            "description": "Restaurant not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/getRestaurantById"
-                }
-              }
-            }
+            "description": "Restaurant not found"
           }
         }
       },
@@ -769,30 +720,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/updateRestaurant"
+                  "$ref": "#/components/schemas/Restaurants"
                 }
               }
             }
           },
           "400": {
-            "description": "Invalid input data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/updateRestaurant"
-                }
-              }
-            }
+            "description": "Invalid input data"
           },
           "404": {
-            "description": "Restaurant not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/updateRestaurant"
-                }
-              }
-            }
+            "description": "Restaurant not found"
           }
         }
       },
@@ -827,7 +764,7 @@
                     "restaurants": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/deleteRestaurant"
+                        "$ref": "#/components/schemas/Restaurants"
                       }
                     }
                   }
@@ -836,14 +773,7 @@
             }
           },
           "404": {
-            "description": "Restaurant not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/deleteRestaurant"
-                }
-              }
-            }
+            "description": "Restaurant not found"
           }
         }
       }
