@@ -60,13 +60,9 @@ const router = express.Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/createRestaurant'
+ *               $ref: '#/components/schemas/Restaurants'
  *       '400':
  *         description: Invalid input data
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/createRestaurant'
  */
 router.post("/restaurants", authenticate, isAuthorized({ hasRole: ["admin"] }), restaurantController.createRestaurant);
 
@@ -88,13 +84,9 @@ router.post("/restaurants", authenticate, isAuthorized({ hasRole: ["admin"] }), 
  *                 restaurants:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/getAllRestaurants'
+ *                     $ref: '#/components/schemas/Restaurants'
  *       '500':
  *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/getAllRestaurants'
  */
 router.get("/restaurants", authenticate, restaurantController.getAllRestaurants);
 
@@ -122,13 +114,9 @@ router.get("/restaurants", authenticate, restaurantController.getAllRestaurants)
  *                 restaurants:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/getRestaurantById'
+ *                     $ref: '#/components/schemas/Restaurants'
  *       '404':
  *         description: Restaurant not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/getRestaurantById'
  */
 router.get("/restaurants/:id", authenticate, restaurantController.getRestaurantById);
 
@@ -197,19 +185,11 @@ router.get("/restaurants/:id", authenticate, restaurantController.getRestaurantB
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/updateRestaurant'
+ *               $ref: '#/components/schemas/Restaurants'
  *       '400':
  *         description: Invalid input data
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/updateRestaurant'
  *       '404':
  *         description: Restaurant not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/updateRestaurant'
  */
 router.put("/restaurants/:id", authenticate, isAuthorized({ hasRole: ["admin", "owner"] }), restaurantController.updateRestaurant);
 
@@ -239,13 +219,9 @@ router.put("/restaurants/:id", authenticate, isAuthorized({ hasRole: ["admin", "
  *                 restaurants:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/deleteRestaurant'
+ *                     $ref: '#/components/schemas/Restaurants'
  *       '404':
  *         description: Restaurant not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/deleteRestaurant'
  */
 router.delete("/restaurants/:id", authenticate, isAuthorized({ hasRole: ["admin"] }), restaurantController.deleteRestaurant);
 
