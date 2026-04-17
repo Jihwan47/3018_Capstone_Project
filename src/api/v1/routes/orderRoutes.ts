@@ -63,13 +63,9 @@ const router = express.Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/createOrder'
+ *               $ref: '#/components/schemas/orders'
  *       '400':
  *         description: Invalid input data
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/createOrder'
  */
 router.post("/orders", orderLimiterPerHour, orderLimiterPerDay, authenticate, isAuthorized({ hasRole: ["user"] }), orderController.createOrder);
 
@@ -97,13 +93,9 @@ router.post("/orders", orderLimiterPerHour, orderLimiterPerDay, authenticate, is
  *                 restaurants:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/getOrderById'
+ *                     $ref: '#/components/schemas/orders'
  *       '404':
  *         description: order not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/getOrderById'
  */
 router.get("/orders/:id", authenticate, isAuthorized({ hasRole: ["owner", "user"] }), orderController.getOrderById);
 
@@ -152,19 +144,11 @@ router.get("/orders/:id", authenticate, isAuthorized({ hasRole: ["owner", "user"
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/updateOrder'
+ *               $ref: '#/components/schemas/orders'
  *       '400':
  *         description: Invalid input data
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/updateOrder'
  *       '404':
  *         description: order not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/updateOrder'
  */
 router.put("/orders/:id", authenticate, isAuthorized({ hasRole: ["admin", "owner"] }), orderController.updateOrder);
 
