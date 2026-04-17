@@ -60,7 +60,7 @@ const orderLimiterPerDay = rateLimit({
  *
  * apiLimiter:
  * - windowMs: 10 minutes time window
- * - max: maximum 100 requests per 10 minutes per IP (based on IP address)
+ * - max: maximum 50 requests per 10 minutes per IP (based on IP address)
  * - message: will be printed if the user exceeds the limit
  * - handler: Request handler that sends back a response when a user is rate limited with status code 429 and message via option.
  * - standardHeaders (draft-7): will include a combined RateLimit header is set containing limit, remaining, reset values, and a RateLimit Policy.
