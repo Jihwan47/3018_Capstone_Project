@@ -62,7 +62,6 @@ export enum restaurantCategory {
     casualDining = "Casual Dining",
     fineDining = "Fine Dining"
 }
-
 /**
  * Represents response format of restaurant interface
  * @param restaurantId - unique identifier of an restaurant
