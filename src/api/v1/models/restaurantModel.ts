@@ -53,9 +53,9 @@
  */
 
 /**
- * Represents enumeration of restaurant status
- * Pending, In Open, Closed
- * Default value of Open
+ * Represents enumeration of restaurant categories
+ * Fast Food, Casual Dining, Fine Dining
+ * Default value of Fast Food
  */
 export enum restaurantCategory {
     fastFood = "Fast Food",
