@@ -18,6 +18,193 @@
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
+    },
+    "schemas": {
+      "Menus": {
+        "type": "object",
+        "required": [
+          "itemName",
+          "itemDescription",
+          "itemPrice"
+        ],
+        "properties": {
+          "itemId": {
+            "type": "string",
+            "description": "Unique identifier of the menu item",
+            "example": "7865d2c2e1d2c3a45d4a6288"
+          },
+          "restaurantId": {
+            "type": "string",
+            "description": "Unique identifier of the restaurant",
+            "example": "64b8f0c2e1d2c3a4b5c6d7e8"
+          },
+          "itemName": {
+            "type": "string",
+            "minLength": 1,
+            "example": "Margherita Pizza"
+          },
+          "itemDescription": {
+            "type": "string",
+            "example": "A delicious dish"
+          },
+          "itemPrice": {
+            "type": "number",
+            "minimum": 0.01,
+            "example": 10.99
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the menu item was created",
+            "example": "2024-01-15T10:30:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the menu item was last updated",
+            "example": "2024-01-20T14:45:00Z"
+          }
+        }
+      },
+      "orders": {
+        "type": "object",
+        "required": [
+          "restaurantName",
+          "customerName",
+          "items"
+        ],
+        "properties": {
+          "restaurantId": {
+            "type": "string",
+            "description": "Unique identifier of the restaurant",
+            "example": "64b8f0c2e1d2c3a4b5c6d7e8"
+          },
+          "restaurantName": {
+            "type": "string",
+            "minLength": 1,
+            "example": "Casual Dining"
+          },
+          "customerName": {
+            "type": "string",
+            "example": "123 Main St"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "itemId"
+              ],
+              "properties": {
+                "itemId": {
+                  "type": "string",
+                  "example": "64b8f0c2e1d2c3a4b5c6d7e8"
+                },
+                "itemName": {
+                  "type": "string",
+                  "example": "Cheeseburger"
+                },
+                "price": {
+                  "type": "number",
+                  "minimum": 0,
+                  "example": 10.99
+                }
+              }
+            }
+          },
+          "totalPrice": {
+            "type": "number",
+            "minimum": 0,
+            "example": 21.98
+          },
+          "status": {
+            "type": "enum",
+            "enum": [
+              "Pending",
+              "In Progress",
+              "Completed",
+              "Cancelled"
+            ],
+            "default": "Pending"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the user order was created",
+            "example": "2024-01-15T10:30:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the user order was last updated",
+            "example": "2024-01-20T14:45:00Z"
+          }
+        }
+      },
+      "Restaurants": {
+        "type": "object",
+        "required": [
+          "restaurantName",
+          "restaurantAddress",
+          "restaurantPhone",
+          "restaurantEmail",
+          "restaurantCategory"
+        ],
+        "properties": {
+          "restaurantName": {
+            "type": "string",
+            "minLength": 1,
+            "example": "Casual Dining"
+          },
+          "restaurantAddress": {
+            "type": "string",
+            "example": "123 Main St"
+          },
+          "restaurantPhone": {
+            "type": "string",
+            "example": "(123) 456-7890"
+          },
+          "restaurantEmail": {
+            "type": "string",
+            "format": "email",
+            "example": "info@rrc.com"
+          },
+          "rating": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "example": 4.5
+          },
+          "reviewCount": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "example": 50
+          },
+          "restaurantCategory": {
+            "type": "string",
+            "enum": [
+              "Fast Food",
+              "Casual Dining",
+              "Fine Dining"
+            ],
+            "default": "Casual Dining",
+            "example": "Casual Dining"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the restaurant was created",
+            "example": "2024-01-15T10:30:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the restaurant was last updated",
+            "example": "2024-01-20T14:45:00Z"
+          }
+        }
+      }
     }
   },
   "security": [
