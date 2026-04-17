@@ -50,6 +50,7 @@ export const createOrders = async (order: createOrder): Promise<Order> => {
         restaurantId: order.restaurantId,
         restaurantName: restaurantData.restaurantName,
         customerName: order.customerName,
+        items: menuItems,
         totalPrice: totalPrice,
         status: OrderStatus.Pending,
         createdAt: new Date(),
