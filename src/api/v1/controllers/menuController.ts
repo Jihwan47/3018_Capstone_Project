@@ -26,26 +26,6 @@ export const getAllMenuItems = async (req: Request, res: Response, next: NextFun
 };
 
 /**
- * GET /api/v1/restaurants/:id/menu/:itemId
- * retreive a specific menu item by its id
- */
-export const getMenuItemById = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const id = String(req.params.id);
-
-        if (!id) {
-            res.status(400).json({ message: "Menu Item ID is required" });
-            return;
-        }
-        const menuItem = await menuService.getMenuItemById(id);
-
-        res.status(200).json(successResponse(menuItem, "Menu item retrieved successfully"));
-    } catch (error: unknown) {
-        next(error);
-    }
-};
-
-/**
  * POST /api/v1/restaurants/:id/menu/:itemId
  * create a new menu item
  */
@@ -64,7 +44,7 @@ export const createMenuItem = async (req: Request, res: Response, next: NextFunc
  */
 export const updateMenuItem = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const id = String(req.params.id);
+        const id = String(req.params.itemId);
 
         if (!id) {
             res.status(400).json({ message: "Menu Item ID is required" });
