@@ -23,12 +23,12 @@ export const createRestaurants = async (restaurant: createRestaurant): Promise<R
         updatedAt: new Date()
     }
 
-    // get id from the data base
+    // create a restaurant document in the database
     const newRestaurantId = await restaurantRepository.createDocument("restaurants", newRestaurant);
 
-    // fetches the newly created event from the database
+    // fetches the newly created restaurant id from the database
     const dbDocument = await restaurantRepository.getDocumentById("restaurants", newRestaurantId);
-    // save the data as Event format
+    // save the data as restaurant format
     const savedData = dbDocument?.data() as Restaurant;
 
     // return api response format
