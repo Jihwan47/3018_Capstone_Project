@@ -1,6 +1,7 @@
-
 import express from "express";
 import * as restaurantController from "../controllers/restaurantController";
+import isAuthorized from "../middleware/authorize";
+import authenticate from "../middleware/authenticate";
 
 const router = express.Router();
 
@@ -67,7 +68,7 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/createRestaurant'
  */
-router.post("/restaurants", restaurantController.createRestaurant);
+router.post("/restaurants", authenticate, isAuthorized({ hasRole: ["admin"] }), restaurantController.createRestaurant);
 
 // Get all post - validates params and optional query
 /**
@@ -95,7 +96,7 @@ router.post("/restaurants", restaurantController.createRestaurant);
  *             schema:
  *               $ref: '#/components/schemas/getAllRestaurants'
  */
-router.get("/restaurants",restaurantController.getAllRestaurants);
+router.get("/restaurants", authenticate, restaurantController.getAllRestaurants);
 
 // Get single post - validates params and optional query
 /**
@@ -129,7 +130,7 @@ router.get("/restaurants",restaurantController.getAllRestaurants);
  *             schema:
  *               $ref: '#/components/schemas/getRestaurantById'
  */
-router.get("/restaurants/:id", restaurantController.getRestaurantById);
+router.get("/restaurants/:id", authenticate, restaurantController.getRestaurantById);
 
 // Update post - validates both params and body
 /**
@@ -210,7 +211,7 @@ router.get("/restaurants/:id", restaurantController.getRestaurantById);
  *             schema:
  *               $ref: '#/components/schemas/updateRestaurant'
  */
-router.put("/restaurants/:id", restaurantController.updateRestaurant);
+router.put("/restaurants/:id", authenticate, isAuthorized({ hasRole: ["admin", "owner"] }), restaurantController.updateRestaurant);
 
 // Delete post - validates params only
 /**
@@ -246,6 +247,6 @@ router.put("/restaurants/:id", restaurantController.updateRestaurant);
  *             schema:
  *               $ref: '#/components/schemas/deleteRestaurant'
  */
-router.delete("/restaurants/:id", restaurantController.deleteRestaurant);
+router.delete("/restaurants/:id", authenticate, isAuthorized({ hasRole: ["admin"] }), restaurantController.deleteRestaurant);
 
 export default router;
