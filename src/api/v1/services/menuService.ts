@@ -54,7 +54,7 @@ export const getAllMenuItems = async (restaurantId: string): Promise<menuItem[]>
     return document.docs
         .filter(doc => {
             const data = doc.data() as menuItem;
-            // filter out the menu items that are not valid
+            // validate if the restaurantId of the menu item matches
             return data.restaurantId === restaurantId;
         })
         .map(doc => {
