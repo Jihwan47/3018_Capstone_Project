@@ -1,6 +1,8 @@
 import express from "express";
 import * as orderController from "../controllers/orderController";
 import { orderLimiterPerHour, orderLimiterPerDay } from "../middleware/rateLimit";
+import isAuthorized from "../middleware/authorize";
+import authenticate from "../middleware/authenticate";
 
 const router = express.Router();
 
@@ -69,7 +71,7 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/createOrder'
  */
-router.post("/orders", orderLimiterPerHour, orderLimiterPerDay, orderController.createOrder);
+router.post("/orders", orderLimiterPerHour, orderLimiterPerDay, authenticate, isAuthorized({ hasRole: ["user"] }), orderController.createOrder);
 
 // Get single post - validates params and optional query
 /**
@@ -103,7 +105,7 @@ router.post("/orders", orderLimiterPerHour, orderLimiterPerDay, orderController.
  *             schema:
  *               $ref: '#/components/schemas/getOrderById'
  */
-router.get("/orders/:id", orderController.getOrderById);
+router.get("/orders/:id", authenticate, isAuthorized({ hasRole: ["owner", "user"] }), orderController.getOrderById);
 
 // Update put - validates both params and body
 /**
@@ -164,6 +166,6 @@ router.get("/orders/:id", orderController.getOrderById);
  *             schema:
  *               $ref: '#/components/schemas/updateOrder'
  */
-router.put("/orders/:id", orderController.updateOrder);
+router.put("/orders/:id", authenticate, isAuthorized({ hasRole: ["admin", "owner"] }), orderController.updateOrder);
 
 export default router;
