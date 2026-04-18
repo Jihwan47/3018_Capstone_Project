@@ -66,7 +66,7 @@ export const postSchemas = {
             }),
         }),
     },
-// validate all the require fields when calling an event by its id
+// validate all the require fields when calling an menu
 // Get single post - validates params and optional query
     getAll: {
         params: Joi.object({
@@ -74,7 +74,7 @@ export const postSchemas = {
         }),
     },
 
-// validate all the require fields when deleting an event by its id
+// validate all the require fields when deleting an menu item by its id
 // Delete post - validates params only
     delete: {
         params: Joi.object({
