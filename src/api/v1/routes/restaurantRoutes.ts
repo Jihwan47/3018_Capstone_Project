@@ -56,7 +56,7 @@ const router = express.Router();
  *                 example: Casual Dining
  *     responses:
  *       '201':
- *         description: event created successfully
+ *         description: restaurant created successfully
  *         content:
  *           application/json:
  *             schema:
