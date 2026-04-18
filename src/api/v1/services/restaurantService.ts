@@ -9,7 +9,7 @@ import * as restaurantRepository from "../repositories/restaurantRepository"
  */
 export const createRestaurants = async (restaurant: createRestaurant): Promise<Restaurant> => {
 
-    // create new event
+    // create new restaurant
     // using partial<T> so that other than required fields, all properties become optional
     const newRestaurant: Partial<Restaurant> = {
         restaurantName: restaurant.restaurantName,
