@@ -106,7 +106,7 @@ export const postSchemas = {
             }),
         }),
     },
-// validate all the require fields when calling an event by its id
+// validate all the require fields when calling an restaurant by its id
 // Get single post - validates params and optional query
     getById: {
         params: Joi.object({
@@ -118,7 +118,7 @@ export const postSchemas = {
         }),
     },
 
-// validate all the require fields when deleting an event by its id
+// validate all the require fields when deleting an restaurant by its id
 // Delete post - validates params only
     delete: {
         params: Joi.object({
