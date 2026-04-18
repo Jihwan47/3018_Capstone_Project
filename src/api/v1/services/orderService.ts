@@ -2,12 +2,12 @@ import { OrderStatus, createOrder, Order } from "../models/orderModel";
 import * as restaurantRepository from "../repositories/restaurantRepository"
 
 /**
- * Create event
- * @param event - request interface defined in postModel.
- * returns ticket information in api response format Event.
+ * Create order
+ * @param order - request interface defined in postModel.
+ * returns ticket information in api response format Order.
  * Id format will be used
- * status of a new event will be active if not proivded by default
- * category of a new event will be general if not proivded by default
+ * status of a new order will be pending if not provided by default
+ * category of a new order will be general if not provided by default
  */
 export const createOrders = async (order: createOrder): Promise<Order> => {
 
