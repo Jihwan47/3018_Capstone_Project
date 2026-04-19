@@ -1,5 +1,7 @@
 import express from "express";
 import * as menuController from "../controllers/menuController";
+import isAuthorized from "../middleware/authorize";
+import authenticate from "../middleware/authenticate";
 
 const router = express.Router();
 
@@ -49,7 +51,7 @@ const router = express.Router();
  *       '400':
  *         description: Invalid input data
  */
-router.post("/restaurants/:id/menu", menuController.createMenuItem);
+router.post("/restaurants/:id/menu", authenticate, isAuthorized({ hasRole: ["owner"] }), menuController.createMenuItem);
 
 // Get all post - validates params and optional query
 /**
@@ -73,7 +75,7 @@ router.post("/restaurants/:id/menu", menuController.createMenuItem);
  *       '500':
  *         description: Internal server error
  */
-router.get("/restaurants/:id/menu", menuController.getAllMenuItems);
+router.get("/restaurants/:id/menu", authenticate, menuController.getAllMenuItems);
 
 // Update post - validates both params and body
 /**
@@ -126,7 +128,7 @@ router.get("/restaurants/:id/menu", menuController.getAllMenuItems);
  *       '404':
  *         description: Menu item not found
  */
-router.put("/restaurants/:id/menu/:itemId", menuController.updateMenuItem);
+router.put("/restaurants/:id/menu/:itemId", authenticate, isAuthorized({ hasRole: ["owner"] }), menuController.updateMenuItem);
 
 // Delete post - validates params only
 /**
@@ -158,6 +160,6 @@ router.put("/restaurants/:id/menu/:itemId", menuController.updateMenuItem);
  *       '404':
  *         description: Menu item not found
  */
-router.delete("/restaurants/:id/menu/:itemId", menuController.deleteMenuItem);
+router.delete("/restaurants/:id/menu/:itemId", authenticate, isAuthorized({ hasRole: ["owner"] }), menuController.deleteMenuItem);
 
 export default router;

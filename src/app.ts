@@ -15,6 +15,7 @@ import restaurantRoutes from "./api/v1/routes/restaurantRoutes";
 import orderRoutes from "./api/v1/routes/orderRoutes";
 import menuRoutes from "./api/v1/routes/menuRoutes";
 import { apiLimiter } from "./api/v1/middleware/rateLimit";
+import adminRoutes from "./api/v1/routes/adminRoutes";
 
 // Initialize Express application
 const app: Express = express();
@@ -48,6 +49,7 @@ app.use("/api/v1", healthRoutes);
 app.use("/api", apiLimiter);
 
 // Mount the menu, order, and restaurant routes
+app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1", menuRoutes);
 app.use("/api/v1", orderRoutes);
 app.use("/api/v1", restaurantRoutes);

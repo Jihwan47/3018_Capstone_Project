@@ -1,6 +1,8 @@
 import express from "express";
 import * as orderController from "../controllers/orderController";
 import { orderLimiterPerHour, orderLimiterPerDay } from "../middleware/rateLimit";
+import isAuthorized from "../middleware/authorize";
+import authenticate from "../middleware/authenticate";
 
 const router = express.Router();
 
@@ -52,7 +54,7 @@ const router = express.Router();
  *                 minimum: 0
  *                 example: 21.98
  *               status:
- *                 type: enum
+ *                 type: string
  *                 enum: [Pending, In Progress, Completed, Cancelled]
  *                 default: Pending
  *     responses:
@@ -61,20 +63,16 @@ const router = express.Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/createOrder'
+ *               $ref: '#/components/schemas/orders'
  *       '400':
  *         description: Invalid input data
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/createOrder'
  */
-router.post("/orders", orderLimiterPerHour, orderLimiterPerDay, orderController.createOrder);
+router.post("/orders", orderLimiterPerHour, orderLimiterPerDay, authenticate, isAuthorized({ hasRole: ["user"] }), orderController.createOrder);
 
 // Get single post - validates params and optional query
 /**
  * @openapi
- * /orders/:id:
+ * /orders/{id}:
  *   get:
  *     summary: Retrieve a single order by ID
  *     tags: [Orders]
@@ -95,20 +93,16 @@ router.post("/orders", orderLimiterPerHour, orderLimiterPerDay, orderController.
  *                 restaurants:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/getOrderById'
+ *                     $ref: '#/components/schemas/orders'
  *       '404':
  *         description: order not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/getOrderById'
  */
-router.get("/orders/:id", orderController.getOrderById);
+router.get("/orders/:id", authenticate, isAuthorized({ hasRole: ["owner", "user"] }), orderController.getOrderById);
 
 // Update put - validates both params and body
 /**
  * @openapi
- * /orders/:id:
+ * /orders/{id}:
  *   put:
  *     summary: Update an existing order
  *     tags: [Orders]
@@ -141,7 +135,7 @@ router.get("/orders/:id", orderController.getOrderById);
  *                 type: string
  *                 example: Daniel
  *               status:
- *                 type: enum
+ *                 type: string
  *                 enum: [Pending, In Progress, Completed, Cancelled]
  *                 default: Pending
  *     responses:
@@ -150,20 +144,12 @@ router.get("/orders/:id", orderController.getOrderById);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/updateOrder'
+ *               $ref: '#/components/schemas/orders'
  *       '400':
  *         description: Invalid input data
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/updateOrder'
  *       '404':
  *         description: order not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/updateOrder'
  */
-router.put("/orders/:id", orderController.updateOrder);
+router.put("/orders/:id", authenticate, isAuthorized({ hasRole: ["admin", "owner"] }), orderController.updateOrder);
 
 export default router;

@@ -49,12 +49,12 @@ export const getAllMenuItems = async (restaurantId: string): Promise<menuItem[]>
     // wait until document fetches the data from firebase
     const document = await restaurantRepository.getDocuments("menuItems");
 
-    // use map to allocate document data and transform into Event data form
-    // and return an array of Events as it Promise<Event[]>
+    // use map to allocate document data and transform into menuItem data form
+    // and return an array of menuItems as it Promise<menuItem[]>
     return document.docs
         .filter(doc => {
             const data = doc.data() as menuItem;
-            // filter out the menu items that are not valid
+            // validate if the restaurantId of the menu item matches
             return data.restaurantId === restaurantId;
         })
         .map(doc => {
@@ -83,7 +83,7 @@ export const getMenuItemById = async (id: string): Promise<menuItem | undefined>
     }
     
     // since document.data() does not have id field, remove id from the data
-    // and will have it back when it returns Promise<Event> type 
+    // and will have it back when it returns Promise<menuItem> type 
     const data = document.data() as Omit<menuItem, "itemId">;
 
     return {
