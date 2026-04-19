@@ -31,6 +31,13 @@ export const getAllMenuItems = async (req: Request, res: Response, next: NextFun
  */
 export const createMenuItem = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
+        const restaurantId = String(req.params.id);
+        if (!restaurantId) {
+            res.status(400).json({ message: "Restaurant ID is required" });
+            return;
+        }
+
         const menuItem = await menuService.createMenuItems(req.body);
         res.status(201).json(successResponse(menuItem, "Menu item created successfully"));
     } catch (error: unknown) {
