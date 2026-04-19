@@ -1,8 +1,8 @@
 import express, { Express } from "express";
-import morgan from "morgan";
 import dotenv from "dotenv";
 dotenv.config();
 
+import morgan from "morgan";
 import setupSwagger from "../config/swagger";
 import healthRoutes from "./api/v1/routes/healthRoutes"
 import errorHandler from "./api/v1/middleware/errorHandler";
