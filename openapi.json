@@ -1,0 +1,853 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Task Management API Documentation",
+    "version": "1.0.0",
+    "description": "This is the API documentation for the Task Management application."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1",
+      "description": "Local server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "This endpoint check the health status of the API",
+        "tags": [
+          "health"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response description",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "uptime": {
+                      "type": "number",
+                      "example": 123456.78
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2023-10-01T12:34:56.789Z"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "1.0.0"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurants/{id}/menu": {
+      "post": {
+        "summary": "Create a new menu item",
+        "tags": [
+          "Menus"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The id of the restaurant"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "itemName",
+                  "itemDescription",
+                  "itemPrice"
+                ],
+                "properties": {
+                  "itemName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "example": "Margherita Pizza"
+                  },
+                  "itemDescription": {
+                    "type": "string",
+                    "example": "A delicious dish"
+                  },
+                  "itemPrice": {
+                    "type": "number",
+                    "minimum": 0.01,
+                    "example": 10.99
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "menu item created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Menus"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data"
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve all menu items for a specific restaurant",
+        "tags": [
+          "Menus"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved all menu items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "restaurants": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Menus"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/restaurants/{id}/menu/{itemId}": {
+      "put": {
+        "summary": "Update an existing menu item",
+        "tags": [
+          "Menus"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The id of the menu item to update",
+            "example": "64b8f0c2e1d2c3a4b5c6d7e8"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "itemName",
+                  "itemDescription - itemPrice"
+                ],
+                "properties": {
+                  "itemName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "example": "Burger"
+                  },
+                  "itemDescription": {
+                    "type": "string",
+                    "example": "A delicious burger"
+                  },
+                  "itemPrice": {
+                    "type": "number",
+                    "minimum": 0.01,
+                    "example": 10.99
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "menu item updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Menus"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "404": {
+            "description": "Menu item not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an existing menu item",
+        "tags": [
+          "Menus"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted the menu item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "menus": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Menus"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Menu item not found"
+          }
+        }
+      }
+    },
+    "/orders": {
+      "post": {
+        "summary": "Create a new order",
+        "tags": [
+          "Orders"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "restaurantId",
+                  "customerName",
+                  "items"
+                ],
+                "properties": {
+                  "restaurantId": {
+                    "type": "string",
+                    "example": "64b8f0c2e1d2c3a4b5c6d7e8"
+                  },
+                  "restaurantName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "example": "Casual Dining"
+                  },
+                  "customerName": {
+                    "type": "string",
+                    "example": "123 Main St"
+                  },
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "itemId": {
+                          "type": "string",
+                          "example": "64b8f0c2e1d2c3a4b5c6d7e8"
+                        },
+                        "itemName": {
+                          "type": "string",
+                          "example": "Cheeseburger"
+                        },
+                        "price": {
+                          "type": "number",
+                          "minimum": 0,
+                          "example": 10.99
+                        }
+                      }
+                    }
+                  },
+                  "totalPrice": {
+                    "type": "number",
+                    "minimum": 0,
+                    "example": 21.98
+                  },
+                  "status": {
+                    "type": "enum",
+                    "enum": [
+                      "Pending",
+                      "In Progress",
+                      "Completed",
+                      "Cancelled"
+                    ],
+                    "default": "Pending"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "order created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/createOrder"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/createOrder"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/:id": {
+      "get": {
+        "summary": "Retrieve a single order by ID",
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the order",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "restaurants": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/getOrderById"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "order not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getOrderById"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an existing order",
+        "tags": [
+          "Orders"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The id of the order to update",
+            "example": "64b8f0c2e1d2c3a4b5c6d7e8"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "restaurantName",
+                  "customerName",
+                  "status"
+                ],
+                "properties": {
+                  "restaurantName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "example": "Casual Dining"
+                  },
+                  "customerName": {
+                    "type": "string",
+                    "example": "Daniel"
+                  },
+                  "status": {
+                    "type": "enum",
+                    "enum": [
+                      "Pending",
+                      "In Progress",
+                      "Completed",
+                      "Cancelled"
+                    ],
+                    "default": "Pending"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "order updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/updateOrder"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/updateOrder"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "order not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/updateOrder"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurants": {
+      "post": {
+        "summary": "Create a new restaurant",
+        "tags": [
+          "Restaurants"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "restaurantName",
+                  "restaurantAddress",
+                  "restaurantPhone",
+                  "restaurantEmail",
+                  "restaurantCategory"
+                ],
+                "properties": {
+                  "restaurantName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "example": "Casual Dining"
+                  },
+                  "restaurantAddress": {
+                    "type": "string",
+                    "example": "123 Main St"
+                  },
+                  "restaurantPhone": {
+                    "type": "string",
+                    "example": "(123) 456-7890"
+                  },
+                  "restaurantEmail": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "info@rrc.com"
+                  },
+                  "rating": {
+                    "type": "number",
+                    "minimum": 0,
+                    "default": 0,
+                    "example": 0
+                  },
+                  "reviewCount": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "default": 0,
+                    "example": 50
+                  },
+                  "restaurantCategory": {
+                    "type": "string",
+                    "enum": [
+                      "Fast Food",
+                      "Casual Dining",
+                      "Fine Dining"
+                    ],
+                    "default": "Casual Dining",
+                    "example": "Casual Dining"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "event created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/createRestaurant"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/createRestaurant"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve all restaurants",
+        "tags": [
+          "Restaurants"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved all restaurants",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "restaurants": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/getAllRestaurants"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getAllRestaurants"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurants/{id}": {
+      "get": {
+        "summary": "Retrieve a single restaurant by ID",
+        "tags": [
+          "Restaurants"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the restaurant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "restaurants": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/getRestaurantById"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Restaurant not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getRestaurantById"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an existing restaurant",
+        "tags": [
+          "Restaurants"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The id of the restaurant to update",
+            "example": "64b8f0c2e1d2c3a4b5c6d7e8"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "restaurantName",
+                  "restaurantAddress",
+                  "restaurantPhone",
+                  "restaurantEmail",
+                  "restaurantCategory"
+                ],
+                "properties": {
+                  "restaurantName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "example": "Casual Dining"
+                  },
+                  "restaurantAddress": {
+                    "type": "string",
+                    "example": "123 Main St"
+                  },
+                  "restaurantPhone": {
+                    "type": "string",
+                    "example": "(123) 456-7890"
+                  },
+                  "restaurantEmail": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "info@rrc.com"
+                  },
+                  "rating": {
+                    "type": "number",
+                    "minimum": 0,
+                    "default": 0,
+                    "example": 0
+                  },
+                  "reviewCount": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "default": 0,
+                    "example": 50
+                  },
+                  "restaurantCategory": {
+                    "type": "string",
+                    "enum": [
+                      "Fast Food",
+                      "Casual Dining",
+                      "Fine Dining"
+                    ],
+                    "default": "Casual Dining",
+                    "example": "Casual Dining"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "restaurant updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/updateRestaurant"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/updateRestaurant"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Restaurant not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/updateRestaurant"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an existing restaurant",
+        "tags": [
+          "Restaurants"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted the restaurant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "restaurants": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/deleteRestaurant"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Restaurant not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deleteRestaurant"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}

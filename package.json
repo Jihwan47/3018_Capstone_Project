@@ -7,36 +7,53 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "start": "ts-node src/server.ts"
+    "start": "ts-node src/server.ts",
+    "build": "tsc",
+    "generate-docs": "ts-node scripts/generate-openapi.ts && npx @redocly/cli build-docs openapi.json --output docs/index.html"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jihwan47/3018_Assignment1.git"
+    "url": "git+https://github.com/Jihwan47/3018_Capstone_Project.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/Jihwan47/3018_Assignment1/issues"
+    "url": "https://github.com/Jihwan47/3018_Capstone_Project/issues"
   },
-  "homepage": "https://github.com/Jihwan47/3018_Assignment1#readme",
+  "homepage": "https://github.com/Jihwan47/3018_Capstone_Project#readme",
   "devDependencies": {
     "@eslint/js": "^9.17.0",
+    "@redocly/cli": "^2.25.4",
+    "@types/cors": "^2.8.19",
     "@types/eslint__js": "^8.42.3",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
-    "@types/node": "^25.0.9",
+    "@types/joi": "^17.2.2",
+    "@types/node": "^25.5.2",
     "@types/supertest": "^6.0.3",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "eslint": "^9.39.2",
-    "jest": "^30.2.0",
+    "jest": "^30.3.0",
     "supertest": "^7.2.2",
-    "ts-jest": "^29.4.6",
+    "ts-jest": "^29.4.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.0"
+    "typescript-eslint": "^8.56.1"
   },
   "dependencies": {
-    "express": "^5.2.1"
+    "@types/morgan": "^1.9.10",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.0",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.3.2",
+    "firebase-admin": "^13.8.0",
+    "helmet": "^8.1.0",
+    "joi": "^18.1.2",
+    "morgan": "^1.10.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }
