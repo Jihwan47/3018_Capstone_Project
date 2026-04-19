@@ -1,6 +1,5 @@
 import { rateLimit } from 'express-rate-limit'
 
-
 /**
  * Basic rate-limiting middleware for Express.
  * This middleware is used to limit repeated requests to public APIs and endpoints such as password reset, login attempts,
@@ -16,7 +15,7 @@ import { rateLimit } from 'express-rate-limit'
  */
 const orderLimiterPerHour = rateLimit({
     windowMs: 60 * 60 * 1000,
-    max: 5, 
+    max: 10, 
     message: 'Too many orders created from this IP, please try again after an hour or contact the restaurant directly if you need assistance.',
     handler: (req, res, next, options) => {
         res.status(429).json({
@@ -42,7 +41,7 @@ const orderLimiterPerHour = rateLimit({
  */
 const orderLimiterPerDay = rateLimit({
     windowMs: 24 * 60 * 60 * 1000, // 24 hours
-    max: 10, // limit each user to 10 orders per day
+    max: 20, // limit each user to 10 orders per day
     message: 'You have exceeded the daily order limit. Please try again after 24 hours or contact the restaurant directly if you need assistance.',
     handler: (req, res, next, options) => {
         res.status(429).json({
