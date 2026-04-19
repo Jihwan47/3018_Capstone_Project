@@ -2,6 +2,8 @@ import express from "express";
 import * as restaurantController from "../controllers/restaurantController";
 import isAuthorized from "../middleware/authorize";
 import authenticate from "../middleware/authenticate";
+import { postSchemas } from "../validation/restaurantValidation";
+import { validateRequest } from "../middleware/restaurantMiddleware";
 
 const router = express.Router();
 
@@ -64,7 +66,11 @@ const router = express.Router();
  *       '400':
  *         description: Invalid input data
  */
-router.post("/restaurants", authenticate, isAuthorized({ hasRole: ["admin"] }), restaurantController.createRestaurant);
+router.post("/restaurants", 
+    authenticate, 
+    isAuthorized({ hasRole: ["admin"] }), 
+    validateRequest(postSchemas.create),
+    restaurantController.createRestaurant);
 
 // Get all post - validates params and optional query
 /**
@@ -88,7 +94,9 @@ router.post("/restaurants", authenticate, isAuthorized({ hasRole: ["admin"] }), 
  *       '500':
  *         description: Internal server error
  */
-router.get("/restaurants", authenticate, restaurantController.getAllRestaurants);
+router.get("/restaurants", 
+    authenticate, 
+    restaurantController.getAllRestaurants);    
 
 // Get single post - validates params and optional query
 /**
@@ -118,7 +126,10 @@ router.get("/restaurants", authenticate, restaurantController.getAllRestaurants)
  *       '404':
  *         description: Restaurant not found
  */
-router.get("/restaurants/:id", authenticate, restaurantController.getRestaurantById);
+router.get("/restaurants/:id", 
+    authenticate, 
+    validateRequest(postSchemas.getById), 
+    restaurantController.getRestaurantById);
 
 // Update post - validates both params and body
 /**
@@ -191,7 +202,11 @@ router.get("/restaurants/:id", authenticate, restaurantController.getRestaurantB
  *       '404':
  *         description: Restaurant not found
  */
-router.put("/restaurants/:id", authenticate, isAuthorized({ hasRole: ["admin", "owner"] }), restaurantController.updateRestaurant);
+router.put("/restaurants/:id", 
+    authenticate, 
+    isAuthorized({ hasRole: ["admin", "owner"] }), 
+    validateRequest(postSchemas.update),
+    restaurantController.updateRestaurant);
 
 // Delete post - validates params only
 /**
@@ -223,6 +238,10 @@ router.put("/restaurants/:id", authenticate, isAuthorized({ hasRole: ["admin", "
  *       '404':
  *         description: Restaurant not found
  */
-router.delete("/restaurants/:id", authenticate, isAuthorized({ hasRole: ["admin"] }), restaurantController.deleteRestaurant);
+router.delete("/restaurants/:id", 
+    authenticate, 
+    isAuthorized({ hasRole: ["admin"] }), 
+    validateRequest(postSchemas.delete),
+    restaurantController.deleteRestaurant);
 
 export default router;

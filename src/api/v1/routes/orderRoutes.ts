@@ -3,6 +3,8 @@ import * as orderController from "../controllers/orderController";
 import { orderLimiterPerHour, orderLimiterPerDay } from "../middleware/rateLimit";
 import isAuthorized from "../middleware/authorize";
 import authenticate from "../middleware/authenticate";
+import { postSchemas } from "../validation/orderValidation";
+import { validateRequest } from "../middleware/restaurantMiddleware";
 
 const router = express.Router();
 
@@ -67,7 +69,13 @@ const router = express.Router();
  *       '400':
  *         description: Invalid input data
  */
-router.post("/orders", orderLimiterPerHour, orderLimiterPerDay, authenticate, isAuthorized({ hasRole: ["user"] }), orderController.createOrder);
+router.post("/orders", 
+    orderLimiterPerHour,
+    orderLimiterPerDay, 
+    authenticate, 
+    isAuthorized({ hasRole: ["user"] }), 
+    validateRequest(postSchemas.create),
+    orderController.createOrder);
 
 // Get single post - validates params and optional query
 /**
@@ -97,7 +105,11 @@ router.post("/orders", orderLimiterPerHour, orderLimiterPerDay, authenticate, is
  *       '404':
  *         description: order not found
  */
-router.get("/orders/:id", authenticate, isAuthorized({ hasRole: ["owner", "user"] }), orderController.getOrderById);
+router.get("/orders/:id", 
+    authenticate, 
+    isAuthorized({ hasRole: ["owner", "user"] }), 
+    validateRequest(postSchemas.getById),
+    orderController.getOrderById);
 
 // Update put - validates both params and body
 /**
@@ -150,6 +162,10 @@ router.get("/orders/:id", authenticate, isAuthorized({ hasRole: ["owner", "user"
  *       '404':
  *         description: order not found
  */
-router.put("/orders/:id", authenticate, isAuthorized({ hasRole: ["admin", "owner"] }), orderController.updateOrder);
+router.put("/orders/:id", 
+    authenticate, 
+    isAuthorized({ hasRole: ["admin", "owner"] }), 
+    validateRequest(postSchemas.update),
+    orderController.updateOrder);
 
 export default router;
