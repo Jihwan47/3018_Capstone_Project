@@ -38,7 +38,10 @@ export const createMenuItem = async (req: Request, res: Response, next: NextFunc
             return;
         }
 
-        const menuItem = await menuService.createMenuItems(req.body);
+        const menuItem = await menuService.createMenuItems({
+            restaurantId,
+            ...req.body
+        });
         res.status(201).json(successResponse(menuItem, "Menu item created successfully"));
     } catch (error: unknown) {
         next(error);
