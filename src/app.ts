@@ -11,14 +11,23 @@ import {
     errorLogger,
     consoleLogger,
 } from "./api/v1/middleware/logger";
+import getHelmetConfig from "./api/v1/middleware/helmet";
+import cors from "cors";
 import restaurantRoutes from "./api/v1/routes/restaurantRoutes";
 import orderRoutes from "./api/v1/routes/orderRoutes";
 import menuRoutes from "./api/v1/routes/menuRoutes";
 import { apiLimiter } from "./api/v1/middleware/rateLimit";
 import adminRoutes from "./api/v1/routes/adminRoutes";
+import getCorsOptions from "./api/v1/middleware/cors";
 
 // Initialize Express application
 const app: Express = express();
+
+// Enable CORS for all routes
+app.use(cors(getCorsOptions()));
+
+// helmet for security
+app.use(getHelmetConfig());
 
 app.use(express.json());
 
